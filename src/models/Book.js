@@ -24,10 +24,10 @@ const bookSchema = new mongoose.Schema({
     timestamps: true
 });
 
-// Indexes for performance
+
 bookSchema.index({ author: 1 });
 bookSchema.index({ publishDate: 1 });
-// Text index for search on name and description
+
 bookSchema.index({ name: 'text', description: 'text' });
 
 module.exports = mongoose.model('Book', bookSchema);
