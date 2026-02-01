@@ -29,7 +29,7 @@
 
 1.  **Clone the Repository**
     ```bash
-    git clone <repository_url>
+    git clone https://github.com/ansuljain789/Books-API-Node.js-Interview-Task.git
     cd BookApiNodeJsTask
     ```
 
@@ -42,7 +42,7 @@
     Ensure `.env` file exists in the root:
     ```env
     PORT=5000
-    MONGODB_URI=mongodb://localhost:27017/books_api
+    MONGODB_URI=mongodb://localhost:27017/booksDatabase
     NODE_ENV=development
     ```
 
