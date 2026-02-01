@@ -38,7 +38,7 @@
     npm install
     ```
 
-3.  **Configure Environment**
+3.  **Configure Environment** (These are for sample view and will not included in actal industrial repo)
     Ensure `.env` file exists in the root:
     ```env
     PORT=5000
