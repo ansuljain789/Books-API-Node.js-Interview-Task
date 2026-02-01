@@ -1,0 +1,92 @@
+{
+    "info": {
+        "_postman_id": "7f8b9d0a-1c2d-3e4f-5g6h-7i8j9k0l",
+        "name": "Books API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Create Book",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"The 7 Habits of Highly Effective People\",\n    \"author\": \"Stephen Covey\",\n    \"description\": \"A business and self-help book that presents an approach to being effective in attaining goals by aligning oneself to what he calls true north principles.\",\n    \"publishDate\": \"1989-08-15\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:5000/api/books",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "books"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "Get All Books (Search & Filter)",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:5000/api/books?search=foundation&author=Isaac Asimov&from=1950-01-01&to=1960-12-31&sortBy=publishDate&order=desc&page=1&limit=10",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "api",
+                        "books"
+                    ],
+                    "query": [
+                        {
+                            "key": "search",
+                            "value": "foundation"
+                        },
+                        {
+                            "key": "author",
+                            "value": "Isaac Asimov"
+                        },
+                        {
+                            "key": "from",
+                            "value": "1950-01-01"
+                        },
+                        {
+                            "key": "to",
+                            "value": "1960-12-31"
+                        },
+                        {
+                            "key": "sortBy",
+                            "value": "publishDate"
+                        },
+                        {
+                            "key": "order",
+                            "value": "desc"
+                        },
+                        {
+                            "key": "page",
+                            "value": "1"
+                        },
+                        {
+                            "key": "limit",
+                            "value": "10"
+                        }
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}

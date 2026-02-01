@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books API Tester</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f4f7f6; color: #333; margin: 0; padding: 20px; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        .section { margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background: #3498db; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #2980b9; }
+        .result { margin-top: 20px; }
+        pre { background: #2c3e50; color: #ecf0f1; padding: 15px; border-radius: 4px; overflow-x: auto; max-height: 400px; }
+        .request-info { color: #27ae60; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Books API Tester</h1>
+
+        <!-- Create Book -->
+        <div class="section">
+            <h2>Create New Book</h2>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" id="name" placeholder="E.g. The Hitchhiker's Guide to the Galaxy">
+            </div>
+            <div class="form-group">
+                <label>Author</label>
+                <input type="text" id="author" placeholder="E.g. Douglas Adams">
+            </div>
+            <div class="form-group">
+                <label>Description (Max 2000 chars)</label>
+                <textarea id="description" rows="3" placeholder="Enter book description..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Publish Date</label>
+                <input type="date" id="publishDate">
+            </div>
+            <button onclick="createBook()">Submit POST Request</button>
+            <div id="create-request-info" class="request-info"></div>
+            <div class="result">
+                <h3>Response:</h3>
+                <pre id="create-response">Waiting for request...</pre>
+            </div>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="section">
+            <h2>Search & Filter Books</h2>
+            <div class="form-group">
+                <label>Search (Name/Description)</label>
+                <input type="text" id="search" placeholder="Search keywords...">
+            </div>
+            <div class="form-group">
+                <label>Author (Exact)</label>
+                <input type="text" id="filterAuthor" placeholder="Author name...">
+            </div>
+            <div class="form-group">
+                <label>From Date</label>
+                <input type="date" id="from">
+            </div>
+            <div class="form-group">
+                <label>To Date</label>
+                <input type="date" id="to">
+            </div>
+            <div class="form-group">
+                <label>Sort By</label>
+                <select id="sortBy">
+                    <option value="name">Name</option>
+                    <option value="author">Author</option>
+                    <option value="publishDate" selected>Publish Date</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Order</label>
+                <select id="order">
+                    <option value="asc">Ascending</option>
+                    <option value="desc" selected>Descending</option>
+                </select>
+            </div>
+            <button onclick="searchBooks()">Submit GET Request</button>
+            <div id="get-request-info" class="request-info"></div>
+            <div class="result">
+                <h3>Response:</h3>
+                <pre id="get-response">Waiting for request...</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/books';
+
+        async function createBook() {
+            const data = {
+                name: document.getElementById('name').value,
+                author: document.getElementById('author').value,
+                description: document.getElementById('description').value,
+                publishDate: document.getElementById('publishDate').value || undefined
+            };
+
+            document.getElementById('create-request-info').innerText = `POST ${API_URL}`;
+            document.getElementById('create-response').innerText = 'Sending...';
+
+            try {
+                const res = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                const result = await res.json();
+                document.getElementById('create-response').innerText = JSON.stringify(result, null, 2);
+            } catch (err) {
+                document.getElementById('create-response').innerText = 'Error: ' + err.message;
+            }
+        }
+
+        async function searchBooks() {
+            const search = document.getElementById('search').value;
+            const author = document.getElementById('filterAuthor').value;
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const sortBy = document.getElementById('sortBy').value;
+            const order = document.getElementById('order').value;
+
+            const params = new URLSearchParams();
+            if (search) params.append('search', search);
+            if (author) params.append('author', author);
+            if (from) params.append('from', from);
+            if (to) params.append('to', to);
+            if (sortBy) params.append('sortBy', sortBy);
+            if (order) params.append('order', order);
+
+            const url = `${API_URL}?${params.toString()}`;
+            document.getElementById('get-request-info').innerText = `GET ${url}`;
+            document.getElementById('get-response').innerText = 'Sending...';
+
+            try {
+                const res = await fetch(url);
+                const result = await res.json();
+                document.getElementById('get-response').innerText = JSON.stringify(result, null, 2);
+            } catch (err) {
+                document.getElementById('get-response').innerText = 'Error: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>
