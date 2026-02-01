@@ -91,13 +91,12 @@ The project follows a layered architecture to ensure scalability and maintainabi
 
 ```mermaid
 graph TD
-    Client[Client (Postman/Browser)] -->|HTTP Request| Router[Express Router]
-    Router -->|Dispatch| Controller[Controller Layer]
-    Router -->|Dispatch| Controller[Controller Layer]
-    Controller -->|Validate| Middleware[Validation Middleware]
-    Controller -->|Call| Service[Service Layer]
-    Service -->|Query| Model[Mongoose Model]
-    Model -->|Read/Write| DB[(MongoDB Database)]
+    Client["Client (Postman/Browser)"] -->|HTTP Request| Router["Express Router"]
+    Router -->|Dispatch| Controller["Controller Layer"]
+    Controller -->|Validate| Middleware["Validation Middleware"]
+    Controller -->|Call| Service["Service Layer"]
+    Service -->|Query| Model["Mongoose Model"]
+    Model -->|Read/Write| DB[("MongoDB Database")]
     DB -->|Result| Model
     Model -->|Data| Service
     Service -->|Business Logic| Controller
